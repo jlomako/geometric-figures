@@ -4,17 +4,24 @@ import matplotlib.pyplot as plt
 import io
 
 
-def create_surface(seed):
+def random_surface(seed):
+    return [np.random.uniform(-2, 2), # amp x
+            np.random.uniform(-2, 2), # amp y
+            np.random.uniform(-0.5, 0.9), # freq x
+            np.random.uniform(-0.5, 0.9),  # freq y
+            np.random.uniform(0, 2 * np.pi)]  # phase
+
+def create_surface(amp_x, amp_y, freq_x, freq_y, phase):
     x = np.linspace(-5, 5, 100)
     y = np.linspace(-5, 5, 100)
     x, y = np.meshgrid(x, y)
     z = np.zeros_like(x)
     for i in range(10):
-        amp_x = np.random.uniform(-2, 2)
-        amp_y = np.random.uniform(-2, 2)
-        freq_x = np.random.uniform(-0.5, 0.9)
-        freq_y = np.random.uniform(-0.5, 0.9)
-        phase = np.random.uniform(0, 2 * np.pi)
+        amp_x = amp_x # np.random.uniform(-2, 2)
+        amp_y = amp_y # np.random.uniform(-2, 2)
+        freq_x = freq_x # np.random.uniform(-0.5, 0.9)
+        freq_y = freq_y # np.random.uniform(-0.5, 0.9)
+        phase = phase # np.random.uniform(0, 2 * np.pi)
         z += amp_x * np.sin(freq_x * x + phase) + amp_y * np.cos(freq_y * y + phase)
 
     # plot 3D surface 10x10
@@ -29,6 +36,18 @@ def create_surface(seed):
     ax.margins(0, 0, 0)  # remove margins
     fig.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=None, hspace=None)  # adjust figure size
     return fig
+
+
+#@st.cache_data(ttl=3600)
+def random_spiro(seed):
+    return [np.random.randint(1, 200), # R
+            np.random.randint(1, 200), # r
+            np.random.randint(1, 200), # d
+            np.random.randint(1, 10),  # freq1
+            np.random.randint(1, 10),  # freq2
+            np.random.randint(1, 500), # amp1
+            np.random.randint(1, 500), # amp2
+            np.random.randint(1, 20)] # k
 
 
 #@st.cache_data(ttl=3600) # clear cache after 1h
@@ -59,16 +78,6 @@ def create_spiro(R, r, d, freq1, freq2, amp1, amp2, k):
     return fig
 
 
-#@st.cache_data(ttl=3600)
-def random_spiro(seed):
-    return [np.random.randint(1, 200), # R
-            np.random.randint(1, 200), # r
-            np.random.randint(1, 200), # d
-            np.random.randint(1, 10),  # freq1
-            np.random.randint(1, 10),  # freq2
-            np.random.randint(1, 500), # amp1
-            np.random.randint(1, 500), # amp2
-            np.random.randint(1, 20)] # k
 
 
 st.header("Geometrikos")
@@ -125,8 +134,8 @@ with tab1:
     )
 
     # button for testing
-    modify_button = st.checkbox("Show Menu to modify Spirograph")
-    if modify_button:
+    modify_spiro = st.checkbox("Show Menu to modify Spirograph")
+    if modify_spiro:
         st.text(f"spiro_values: {spiro_values}")
         st.text(f"session state: {st.session_state.spiro}")
 
@@ -152,9 +161,38 @@ with tab1:
 with tab2:
    surface_button = st.button("Create new Surface", use_container_width=True, key="surface_button")
    if surface_button:
-       # create random figure
-       st.pyplot(create_surface(np.random.random()))
+       # create random figure when this button is pressed
+       surface_values = random_surface(np.random.random())
+       # and transfer random values to session state
+       st.session_state.surface = surface_values
    else:
-       # display default figure
-       st.pyplot(create_surface(1))
+       # on first run: display default figure
+       surface_values = [-0.87, 0.45, 0.54, -0.015, 0.05]
+
+   # on first run: initialise session state
+   if 'surface' not in st.session_state:
+       st.session_state.surface = surface_values
+
+
+   # plot figure with values in session state - * unpacks list into separate values
+   fig_surface = create_surface(*st.session_state.surface)
+   st.pyplot(fig_surface)
+
+   # save image for download button
+   img = io.BytesIO()
+   plt.savefig(img, format='png')
+
+   download_button = st.download_button(
+       label="Download Image",
+       data=img,
+       file_name='image.png',
+       mime="image/png",
+       use_container_width=True
+   )
+
+   # button for testing
+   modify_surface = st.checkbox("Show Menu to modify Surface")
+   if modify_surface:
+       st.text(f"surface_values: {surface_values}")
+       st.text(f"session state: {st.session_state.surface}")
 
