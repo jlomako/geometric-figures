@@ -1,1 +1,1 @@
-working on an app that creates beautiful random geometric figures
+working on a streamlit app that creates beautiful random geometric figures

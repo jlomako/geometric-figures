@@ -11,17 +11,18 @@ def random_surface(seed):
             np.random.uniform(-0.5, 0.9),  # freq y
             np.random.uniform(0, 2 * np.pi)]  # phase
 
+
 def create_surface(amp_x, amp_y, freq_x, freq_y, phase):
     x = np.linspace(-5, 5, 100)
     y = np.linspace(-5, 5, 100)
     x, y = np.meshgrid(x, y)
     z = np.zeros_like(x)
     for i in range(10):
-        amp_x = amp_x # np.random.uniform(-2, 2)
-        amp_y = amp_y # np.random.uniform(-2, 2)
-        freq_x = freq_x # np.random.uniform(-0.5, 0.9)
-        freq_y = freq_y # np.random.uniform(-0.5, 0.9)
-        phase = phase # np.random.uniform(0, 2 * np.pi)
+        amp_x = amp_x
+        amp_y = amp_y
+        freq_x = freq_x
+        freq_y = freq_y
+        phase = phase
         z += amp_x * np.sin(freq_x * x + phase) + amp_y * np.cos(freq_y * y + phase)
 
     # plot 3D surface 10x10
@@ -80,8 +81,7 @@ def create_spiro(R, r, d, freq1, freq2, amp1, amp2, k):
 
 
 
-st.header("Geometrikos")
-st.subheader("Create beautiful geometric figures")
+st.header("Geometrix - Create beautiful geometric figures")
 
 # invert colours
 invert_button = st.checkbox("Invert colours")
@@ -114,6 +114,11 @@ with tab1:
     if 'spiro' not in st.session_state:
         st.session_state.spiro = spiro_values
 
+    # modify_button = st.button("Modify", use_container_width=True)
+    # if modify_button:
+    #     st.session_state.spiro[0] = st.slider("Big circle radius: ", 0, 200, value=st.session_state.spiro[0])
+
+
     # st.text(f"spiro_values: {spiro_values}")
     # st.text(f"session state: {st.session_state.spiro}")
 
@@ -133,28 +138,17 @@ with tab1:
         use_container_width=True
     )
 
-    # button for testing
-    modify_spiro = st.checkbox("Show Menu to modify Spirograph")
-    if modify_spiro:
-        st.text(f"spiro_values: {spiro_values}")
-        st.text(f"session state: {st.session_state.spiro}")
-
-        slider = st.slider("Big circle radius: ", 0, 200, value=st.session_state.spiro[0])
-        print(f"slider: {slider}")
-        #st.session_state.spiro[0] = slider
-        #print(f"session state [0]: {st.session_state.spiro[0]}")
-        # update figure
-
-        # # show slider menu
-        # st.session_state.spiro[0] = st.slider('Big circle radius: ', 0, 200, value=st.session_state.spiro[0]) # R
-        # st.session_state.spiro[1] = st.slider('Small circle radius: ', 1, 200, value=st.session_state.spiro[1]) # r
-        # st.session_state.spiro[2] = st.slider('Distance: ', 0, 200, value=st.session_state.spiro[2]) # d
-        # st.session_state.spiro[3] = st.slider('Frequency 1st wave: ', 0, 10, value=st.session_state.spiro[3]) # freq1
-        # st.session_state.spiro[4] = st.slider('Frequency 2nd wave: ', 0, 10, value=st.session_state.spiro[4]) # freq2
-        # st.session_state.spiro[5] = st.slider('Amplitude 1st wave: ', 0, 500, value=st.session_state.spiro[5]) # amp1
-        # st.session_state.spiro[6] = st.slider('Amplitude 2nd wave: ', 0, 500, value=st.session_state.spiro[6]) # amp2
-        # st.session_state.spiro[7] = st.slider('Coefficient: ', 1, 25, value=st.session_state.spiro[7])  # k
-
+    # # button for testing
+    # modify_spiro = st.checkbox("Show Menu to modify Spirograph")
+    # if modify_spiro:
+    #     st.text(f"spiro_values: {spiro_values}")
+    #     st.text(f"session state: {st.session_state.spiro}")
+    #
+    #     slider = st.slider("Big circle radius: ", 0, 200, value=st.session_state.spiro[0])
+    #     print(f"slider: {slider}")
+    #     #st.session_state.spiro[0] = slider
+    #     #print(f"session state [0]: {st.session_state.spiro[0]}")
+    #     # update figure
 
 
 # SURFACE
@@ -167,7 +161,7 @@ with tab2:
        st.session_state.surface = surface_values
    else:
        # on first run: display default figure
-       surface_values = [-0.87, 0.45, 0.54, -0.015, 0.05]
+       surface_values = [0.82, 1.41, -0.49, 0.67, 5.46]
 
    # on first run: initialise session state
    if 'surface' not in st.session_state:
@@ -190,9 +184,9 @@ with tab2:
        use_container_width=True
    )
 
-   # button for testing
-   modify_surface = st.checkbox("Show Menu to modify Surface")
-   if modify_surface:
-       st.text(f"surface_values: {surface_values}")
-       st.text(f"session state: {st.session_state.surface}")
+   # # button for testing
+   # modify_surface = st.checkbox("Show Menu to modify Surface")
+   # if modify_surface:
+   #     st.text(f"surface_values: {surface_values}")
+   #     st.text(f"session state: {st.session_state.surface}")
 
