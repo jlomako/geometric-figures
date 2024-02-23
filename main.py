@@ -190,3 +190,4 @@ with tab2:
    #     st.text(f"surface_values: {surface_values}")
    #     st.text(f"session state: {st.session_state.surface}")
 
+st.caption("© Copyright 2023-2024, <a href='https://github.com/jlomako'>jlomako</a>", unsafe_allow_html=True)
