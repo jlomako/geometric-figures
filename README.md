@@ -1,4 +1,6 @@
-## Streamlit app that creates random Spirographs and Surfaces
+### Streamlit app that creates random Spirographs and Surfaces >> [open](https://jlomako-geometric-figures-main-aogrq1.streamlit.app/)
+
+Preview:
 
 <a href="https://jlomako-geometric-figures-main-aogrq1.streamlit.app/"><img src="docs/screenshot.png"></a>
 
